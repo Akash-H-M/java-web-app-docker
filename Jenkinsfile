@@ -13,19 +13,19 @@ node{
     
     
     stage('Build Docker Image'){
-        sh 'docker build -t dockerhandson/java-web-app .'
+        sh 'docker build -t akashhm2000/my-app .'
     }
     
     stage('Push Docker Image'){
         withCredentials([string(credentialsId: 'Docker_Hub_Pwd', variable: 'Docker_Hub_Pwd')]) {
-          sh "docker login -u dockerhandson -p ${Docker_Hub_Pwd}"
+          sh "docker login -u akashhm2000 -p ${Docker_Hub_Pwd}"
         }
-        sh 'docker push dockerhandson/java-web-app'
+        sh 'docker push akashhm2000/my-app'
      }
      
       stage('Run Docker Image In Dev Server'){
         
-        def dockerRun = ' docker run  -d -p 8080:8080 --name java-web-app dockerhandson/java-web-app'
+        def dockerRun = ' docker run  -d -p 8080:8080 --name java-web-app akashhm2000/my-app'
          
          sshagent(['DOCKER_SERVER']) {
           sh 'ssh -o StrictHostKeyChecking=no ubuntu@172.31.20.72 docker stop java-web-app || true'
